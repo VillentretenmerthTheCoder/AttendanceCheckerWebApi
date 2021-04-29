@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace AttendanceCheckerWebApi
 {
@@ -26,7 +27,12 @@ namespace AttendanceCheckerWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options => {
+                options.AddPolicy("AllowAnyOrigin", builder =>
+                 {
+                     builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                 });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,6 +53,7 @@ namespace AttendanceCheckerWebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthorization();
 
