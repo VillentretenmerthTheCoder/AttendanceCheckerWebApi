@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/attendancechecker123/apis/attendancechecker",
+      "type": "apis.azure"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/attendancecheckerdbb/databases/AttendanceCheckerDatabase",
+      "type": "mssql.azure",
+      "connectionId": "EmployeeDatabase",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

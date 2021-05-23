@@ -11,7 +11,7 @@ namespace AttendanceCheckerWebApi.Persistency
     public class AdminsPersistency
     {
         public const string GET_ALL = "Select * from Admin";
-        public const string CONNECTION_STRING = @"Data Source=attendancecheckerapidbserver.database.windows.net;Initial Catalog=AttendanceCheckerDatabase;User ID=attendancechecker;Password=schoolproject_123;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public const string CONNECTION_STRING = @"Data Source=attendancecheckerdbb.database.windows.net;Initial Catalog=AttendanceCheckerDatabase;User ID=attendancechecker;Password=schoolproject_123;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         // Get method that SQL can understand
         public static Admin ReadNextElement(SqlDataReader reader)
