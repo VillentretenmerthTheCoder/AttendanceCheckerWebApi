@@ -11,6 +11,7 @@ namespace AttendanceCheckerWebApi.Controllers
    
         [Route("api/[controller]")]
         [ApiController]
+        
         public class AdminsController : ControllerBase
         {
             // GET

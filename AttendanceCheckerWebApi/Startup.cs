@@ -28,7 +28,7 @@ namespace AttendanceCheckerWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => {
-                options.AddPolicy("AllowAnyOrigin", builder =>
+                options.AddPolicy("MyPolicy", builder =>
                  {
                      builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
                  });
@@ -53,7 +53,7 @@ namespace AttendanceCheckerWebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 

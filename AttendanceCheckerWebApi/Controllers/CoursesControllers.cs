@@ -50,6 +50,15 @@ namespace AttendanceCheckerWebApi.Controllers
             {
                 CoursesPersistency.Delete(id);
             }
-        }
+        
+    
+            [HttpGet]
+            [Route("getteachingsteacher")]
+            
+            public IEnumerable<TeachersTeaching> GetTeachingTeachers()
+            {
+             return CoursesPersistency.TeacherTeachings();
+            }
+    }
     
 }

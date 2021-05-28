@@ -20,6 +20,12 @@ namespace AttendanceCheckerWebApi.Persistency
             return coureses;
         }
 
+        public static TeachersTeaching ReadNextTeacherTeachings(SqlDataReader reader)
+        {
+            TeachersTeaching teacherteachings = new TeachersTeaching(reader.GetString(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetString(4), reader.GetInt32(5));
+            return teacherteachings;
+        }
+
         // Get
         public static IEnumerable<Course> Get()
         {
@@ -137,6 +143,34 @@ namespace AttendanceCheckerWebApi.Persistency
                     }
                 }
             }
+        }
+
+        //Teacher and Teachings join table
+        public static IEnumerable<TeachersTeaching> TeacherTeachings()
+        {
+
+            List<TeachersTeaching> teachersReturned = new List<TeachersTeaching>();
+            using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+            {
+                conn.Open();
+                if(conn.State == ConnectionState.Open)
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT Teacher.Name, Teacher.Surname, Teaching.Course_id, Teaching.Teacher_id, Course.Course_name, Teaching.Teaching_id FROM Teacher JOIN Teaching ON Teacher.Teacher_id = Teaching.Teacher_id JOIN Course ON Course.Course_id = Teaching.Course_id";
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                teachersReturned.Add(ReadNextTeacherTeachings(reader));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return teachersReturned;
         }
 
     }
