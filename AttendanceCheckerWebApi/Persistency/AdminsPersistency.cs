@@ -140,6 +140,35 @@ namespace AttendanceCheckerWebApi.Persistency
             }
         }
 
+        //Auth
+        public static Admin Auth(string name, string pass)
+        {
+            Admin a = new Admin();
+            using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+            {
+                conn.Open();
+                if (conn.State == ConnectionState.Open)
+                {
+                    using (SqlCommand cmd = new SqlCommand(@"Select Admin_id
+		            From Admin
+		            Where Login = @name AND Password = @pass", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", name);
+                        cmd.Parameters.AddWithValue("@pass", pass);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                               a = ReadNextElement(reader);
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            return a;
+        }
+
     }
 }
 
