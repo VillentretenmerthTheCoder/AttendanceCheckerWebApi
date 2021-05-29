@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AttendanceCheckerWebApi.Models;
 using AttendanceCheckerWebApi.Persistency;
+using System.Net;
 
 namespace AttendanceCheckerWebApi.Controllers
 {
@@ -35,7 +36,21 @@ namespace AttendanceCheckerWebApi.Controllers
             {
                 AdminsPersistency.Post(value);
             }
+            // login
+            [HttpPost]
+        [Route("Login")]
+        public UserSession login([FromBody] Login creds)
+            {
+            UserSession session = new UserSession();
+             Admin a = AdminsPersistency.Auth(creds.username, creds.password);
+                if (a==null) {
+                    Unauthorized();
+                }
+            session.ID = a.Admin_id;
+            session.role = "Admin";
+            return session;
 
+        }
             // PUT
             [HttpPut]
             [Route("{id}")]

@@ -150,22 +150,28 @@ namespace AttendanceCheckerWebApi.Persistency
                 if (conn.State == ConnectionState.Open)
                 {
                     using (SqlCommand cmd = new SqlCommand(@"Select Admin_id
-		            From Admin
-		            Where Login = @name AND Password = @pass", conn))
+              From Admin
+              Where Login = @name AND Password = @pass", conn))
                     {
                         cmd.Parameters.AddWithValue("@name", name);
                         cmd.Parameters.AddWithValue("@pass", pass);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            while (reader.Read())
+                            reader.Read();
+                            if (reader.HasRows)
                             {
-                               a = ReadNextElement(reader);
-                                
+                                a.Admin_id = reader.GetInt32(0);
+
+                            }
+                            else
+                            {
+                                a = null;
                             }
                         }
                     }
                 }
             }
+
             return a;
         }
 
