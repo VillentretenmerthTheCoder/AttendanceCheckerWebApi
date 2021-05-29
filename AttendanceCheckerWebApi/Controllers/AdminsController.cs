@@ -39,7 +39,7 @@ namespace AttendanceCheckerWebApi.Controllers
             // login
             [HttpPost]
         [Route("Login")]
-        public UserSession login([FromBody] Login creds)
+        public ActionResult<UserSession> login([FromBody] Login creds)
             {
             UserSession session = new UserSession();
              Admin a = AdminsPersistency.Auth(creds.username, creds.password);
@@ -62,8 +62,10 @@ namespace AttendanceCheckerWebApi.Controllers
                 session.role = "Student";
 
             }
-            if (a==null&&t==null&&s==null)
-                Unauthorized();
+            if (session.role == null) {
+                return Unauthorized();
+            }
+                
             return session;
         }
             // PUT
