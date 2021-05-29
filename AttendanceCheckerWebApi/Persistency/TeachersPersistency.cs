@@ -145,6 +145,40 @@ namespace AttendanceCheckerWebApi.Persistency
                 }
             }
         }
+        //Auth
+        public static Teacher Auth(string name, string pass)
+        {
+            Teacher a = new Teacher();
+            using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+            {
+                conn.Open();
+                if (conn.State == ConnectionState.Open)
+                {
+                    using (SqlCommand cmd = new SqlCommand(@"Select Teacher_id
+              From Teacher
+              Where School_email = @name AND Password = @pass", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", name);
+                        cmd.Parameters.AddWithValue("@pass", pass);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            reader.Read();
+                            if (reader.HasRows)
+                            {
+                                a.Teacher_id = reader.GetInt32(0);
+
+                            }
+                            else
+                            {
+                                a = null;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return a;
+        }
 
     }
 }

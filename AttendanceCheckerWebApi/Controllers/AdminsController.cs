@@ -43,13 +43,28 @@ namespace AttendanceCheckerWebApi.Controllers
             {
             UserSession session = new UserSession();
              Admin a = AdminsPersistency.Auth(creds.username, creds.password);
-                if (a==null) {
-                    Unauthorized();
-                }
-            session.ID = a.Admin_id;
-            session.role = "Admin";
-            return session;
+                if (a!=null) {
+                session.ID = a.Admin_id;
+                session.role = "Admin";
+                
+            }
+            Teacher t = TeachersPersistency.Auth(creds.username, creds.password);
+            if (t != null)
+            {
+                session.ID = t.Teacher_id;
+                session.role = "Teacher";
 
+            }
+            Student s = StudentPersistency.Auth(creds.username, creds.password);
+            if (s != null)
+            {
+                session.ID = s.Student_id;
+                session.role = "Student";
+
+            }
+            if (a==null&&t==null&&s==null)
+                Unauthorized();
+            return session;
         }
             // PUT
             [HttpPut]

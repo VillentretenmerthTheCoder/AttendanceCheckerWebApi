@@ -149,6 +149,40 @@ namespace AttendanceCheckerWebApi
                 }
             }
         }
+        //Auth
+        public static Student Auth(string name, string pass)
+        {
+            Student a = new Student();
+            using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+            {
+                conn.Open();
+                if (conn.State == ConnectionState.Open)
+                {
+                    using (SqlCommand cmd = new SqlCommand(@"Select Student_id
+              From Student
+              Where School_email = @name AND Password = @pass", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", name);
+                        cmd.Parameters.AddWithValue("@pass", pass);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            reader.Read();
+                            if (reader.HasRows)
+                            {
+                                a.Student_id = reader.GetInt32(0);
+
+                            }
+                            else
+                            {
+                                a = null;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return a;
+        }
 
     }
 }
